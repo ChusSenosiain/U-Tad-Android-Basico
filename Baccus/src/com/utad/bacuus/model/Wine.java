@@ -12,13 +12,14 @@ public class Wine {
 	private int mImage;
 	private int mRating;
 	private String mURL;
+	private String mDescription;
 	private List<String> mGrapes;
 	
 	public Wine() {}
 	
 	
 	public Wine(String name, String wineHouse, String type, int image,
-			int rating, String URL) {
+			int rating, String URL, String description) {
 		super();
 		mName = name;
 		mWineHouse = wineHouse;
@@ -27,6 +28,7 @@ public class Wine {
 		mRating = rating;
 		mGrapes = new LinkedList<String>();
 		mURL = URL;
+		mDescription = description;
 	}
 
 	public String getName() {
@@ -90,9 +92,19 @@ public class Wine {
 	public void setURL(String uRL) {
 		mURL = uRL;
 	}
-	
-	
 
+
+	public String getDescription() {
+		return mDescription;
+	}
+
+
+	public void setDescription(String description) {
+		mDescription = description;
+	}
+
+
+	
 	
 	
 }

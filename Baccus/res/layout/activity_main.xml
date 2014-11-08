@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,39 +8,89 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#FF0066"
     tools:context="com.utad.bacuus.MainActivity" >
-
-    <ImageView
-        android:id="@+id/wine_image"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_gravity="bottom|center"
-        android:contentDescription="@string/image_description"
-        android:gravity="center"
-        android:src="@drawable/vegaval" />
-    
-    
-    
-    <LinearLayout android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white">       
-        
-		<Button
-	        android:id="@+id/btnWineBembibre"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:onClick="changeImage"
-	        android:text="@string/vegaval" />
-
-    	<Button
-	        android:id="@+id/btnWineVegaval"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:onClick="changeImage"
-	        android:text="@string/bembibre" />
 	        
-    </LinearLayout>
+	<ImageView
+	    android:id="@+id/wine_image"
+	    android:layout_width="150dp"
+	    android:layout_height="300dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:contentDescription="@string/image_description"
+	    android:scaleType="fitStart"
+	    android:src="@drawable/vegaval" />
 
-   
+	<TextView
+	    android:id="@+id/tv_name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignTop="@+id/wine_image"
+	    android:layout_toRightOf="@+id/wine_image"
+	    android:text="Name" />
 
-</FrameLayout>
+	<TextView
+	    android:id="@+id/tv_type"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/tv_name"
+	    android:layout_toRightOf="@+id/wine_image"
+	    android:text="Type" />
+
+	<TextView
+	    android:id="@+id/tv_winehouse"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/tv_type"
+	    android:layout_toRightOf="@+id/wine_image"
+	    android:text="Winehouse" />
+	
+	<RatingBar
+	    android:id="@+id/rating"
+	    android:numStars="5"
+	    android:stepSize="1"
+	    android:isIndicator="true"
+	    android:layout_width="wrap_content"
+	    style="?android:attr/ratingBarStyleSmall"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_winehouse"
+	    android:layout_alignLeft="@+id/tv_name"
+	    />
+	
+	
+	<ScrollView 
+	    android:layout_marginTop="@dimen/activity_vertical_margin"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/wine_image"
+	    android:background="#66000000">
+
+		<TextView
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:id="@+id/tv_description"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:text="Description"
+		    android:textColor="#FFFFFF"
+		     />
+	
+	</ScrollView>
+
+	<LinearLayout
+	    android:id="@+id/grapes"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/wine_image"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/rating"
+	    android:layout_toRightOf="@+id/wine_image"
+	    android:orientation="vertical" >
+
+	</LinearLayout>
+	
+</RelativeLayout>
