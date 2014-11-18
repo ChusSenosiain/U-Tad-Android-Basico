@@ -8,5 +8,8 @@
     <string name="bembibre">Cambiar a Bembibre</string>
     <string name="image_description">Imagen del vino</string>
     <string name="grapes_title">Uvas</string>
+    <string name="reload">Recargar</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_wine_house">WineHouseActivity</string>
 
 </resources>
