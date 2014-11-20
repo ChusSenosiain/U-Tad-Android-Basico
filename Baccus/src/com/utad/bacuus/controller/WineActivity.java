@@ -23,6 +23,8 @@ public class WineActivity extends ActionBarActivity {
 	private Wine mWine = null;
 	ImageView mWineImage = null;
 	
+	private static final String CURRENT_SCALE = "CURRENT_SCALE";
+	
 	//private Wine bembibre = null;
 
     @Override
@@ -30,16 +32,11 @@ public class WineActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        mWine = (Wine) getIntent().getSerializableExtra(WineHouseActivity.WINE_SELECTED);
         
-//      bembibre = new Wine("Bembibre", "Dominio de Tares", "Tinto", R.drawable.bembibre, 
-//      		5, "http://www.dominiodetares.com", "Del Bierzo, no hay nada más que decir");
-//      bembibre.addGrape("Mencía");
-        
-        mWine = new Wine("Vegaval", "Miguel Calatayud", "Tinto", R.drawable.vegaval, 
-        		4, "http://www.vegaval.com/es/", "Lorem fistrum llevame al sircoo jarl papaar papaar diodeno pupita a wan ese pedazo de pecador ahorarr amatomaa. A gramenawer te voy a borrar el cerito se calle ustée qué dise usteer te va a hasé pupitaa fistro apetecan. Torpedo qué dise usteer papaar papaar la caidita condemor benemeritaar diodeno a gramenawer. La caidita hasta luego Lucas ese pedazo de se calle ustée. Amatomaa ese hombree mamaar pupita. Ese hombree no puedor a wan te voy a borrar el cerito qué dise usteer a gramenawer condemor tiene musho peligro mamaar. Diodeno amatomaa papaar papaar la caidita hasta luego Lucas va usté muy cargadoo ahorarr benemeritaar por la gloria de mi madre. Mamaar ese pedazo de de la pradera me cago en tus muelas al ataquerl la caidita condemor se calle ustée.");
-         
-        mWine.addGrape("Mencía");
-        mWine.addGrape("Garnacha");
+        if (mWine == null) {
+        	mWine = new Wine();
+        }
         
         
         mWineImage = (ImageView) findViewById(R.id.wine_image);
@@ -48,6 +45,10 @@ public class WineActivity extends ActionBarActivity {
         TextView tvType = (TextView) findViewById(R.id.tv_type);
         TextView tvWinehouse = (TextView) findViewById(R.id.tv_winehouse);
         TextView tvDescription = (TextView) findViewById(R.id.tv_description);
+        
+        if (savedInstanceState != null && savedInstanceState.getSerializable(CURRENT_SCALE) != null) {
+        	mWineImage.setScaleType((ScaleType) savedInstanceState.getSerializable(CURRENT_SCALE));
+        }
         
         Button btnWeb = (Button) findViewById(R.id.btn_web);
         btnWeb.setOnClickListener(new OnClickListener() {
@@ -128,6 +129,14 @@ public class WineActivity extends ActionBarActivity {
 				
 			}
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		ScaleType scaleType = mWineImage.getScaleType();
+		outState.putSerializable(CURRENT_SCALE, scaleType);
 	}
 	
 	

@@ -1,10 +1,11 @@
 package com.utad.bacuus.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Wine {
+public class Wine implements Serializable {
 	
 	private String mName;
 	private String mWineHouse;
