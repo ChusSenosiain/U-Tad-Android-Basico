@@ -105,6 +105,30 @@ public class Wine implements Serializable {
 	}
 
 
+	@Override
+	public String toString() {
+		return mName;
+	}
+
+
+	@Override
+	public boolean equals(Object object) {
+		
+		if (!(object instanceof Wine)) {
+			return false;
+		}
+		
+		Wine wine = (Wine) object;
+		
+		return this.mName.equals(wine.getName());
+		
+	}
+
+	
+	
+	
+	
+
 	
 	
 	

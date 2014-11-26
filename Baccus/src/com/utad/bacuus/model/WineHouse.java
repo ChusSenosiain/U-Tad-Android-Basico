@@ -7,7 +7,7 @@ import java.util.List;
 import android.content.Intent;
 
 import com.utad.bacuus.R;
-import com.utad.bacuus.controller.WineActivity;
+import com.utad.bacuus.controller.activity.WineActivity;
 
 public class WineHouse {
 	
@@ -70,6 +70,15 @@ public class WineHouse {
 		mWines.add(wine);
 	}
 	
+	public List<Wine> cloneWineList() {
+		List<Wine> copy = new LinkedList<Wine>();
+		for (Wine wine: mWines) {
+			copy.add(wine);
+		}
+		
+		return copy;
+	}
+	
 	
 	
 	/*
@@ -99,6 +108,11 @@ public class WineHouse {
 		return mWines.size();
 	}
 
+
+	
+	
+	
+
 	/*
 	private Wine createWine(WineHouseType wineHouseType) {
 		
@@ -121,6 +135,8 @@ public class WineHouse {
 		
 		return wine;
 	}*/
+	
+	
 
 	
 

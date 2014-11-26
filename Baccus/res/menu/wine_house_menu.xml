@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.utad.bacuus.WineHouseActivity" >
+    
+      <item
+        android:id="@+id/menu_prev"
+        android:orderInCategory="100"
+        android:title="@string/action_prev"
+        app:showAsAction="always"/>
+      
+      <item
+        android:id="@+id/menu_next"
+        android:orderInCategory="100"
+        android:title="@string/action_next"
+        app:showAsAction="always"/>
+      
+
+</menu>

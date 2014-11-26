@@ -22,3 +22,10 @@ original. Osea que cumpla con la configuración hecha en Settings.
 4. Hacer que el tabhost aparezca por debajo del menu.???
 
 Hecho.
+
+# Ejercicio Android Básico 22/11/201.
+
+1. Que desde la lista de vinos, se vaya a la winehouse con el vino seleccionado.
+2. Añadir en la ventana de winehouse la opción de volver atrás (home);
+
+Hecho.

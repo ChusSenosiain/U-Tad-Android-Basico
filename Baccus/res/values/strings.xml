@@ -11,5 +11,9 @@
     <string name="reload">Recargar</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_wine_house">WineHouseActivity</string>
+    <string name="web">Web</string>
+    <string name="action_next">Siguiente</string>
+    <string name="action_prev">Anterior</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
