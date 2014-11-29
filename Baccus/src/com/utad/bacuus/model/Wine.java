@@ -1,12 +1,32 @@
 package com.utad.bacuus.model;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.os.StrictMode;
+
+import com.utad.bacuus.R;
+
 public class Wine implements Serializable {
 	
+	private String mId;
 	private String mName;
 	private String mWineHouse;
 	private String mType;
@@ -14,6 +34,7 @@ public class Wine implements Serializable {
 	private int mRating;
 	private String mURL;
 	private String mDescription;
+	private String mImageURL;
 	private List<String> mGrapes;
 	
 	public Wine() {}
@@ -31,7 +52,62 @@ public class Wine implements Serializable {
 		mURL = URL;
 		mDescription = description;
 	}
+	
+	public Wine(JSONObject jsonWine) {
+		
+		mId = jsonWine.optString("_id");
+		mName = jsonWine.optString("name");
+		mWineHouse = jsonWine.optString("company");
+		mType = jsonWine.optString("origin");
+		mImage = R.drawable.vegaval;
+		mRating = jsonWine.optInt("rating");
+		mURL = jsonWine.optString("wine_web");
+		mDescription = jsonWine.optString("notes");
+		mImageURL = jsonWine.optString("picture");
+		
+		mGrapes = new LinkedList<String>();
+		
+		try {
+		    JSONArray grapes = jsonWine.getJSONArray("grapes");
+			for (int i = 0; i < grapes.length(); i ++) {
+				this.addGrape(grapes.getJSONObject(i).optString("grape"));
+			}
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 
+	@SuppressLint("NewApi") public Bitmap getBitmap(Context context) {
+		
+		Bitmap bitmap = null;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+		}
+	
+		try {
+			
+			File imageFile = new File(context.getCacheDir() + "/" + mId);
+			
+			if (imageFile.exists()) {
+				bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+			} else {
+				bitmap = BitmapFactory.decodeStream((InputStream) new URL(mImageURL).getContent());
+				
+				FileOutputStream fOut = new FileOutputStream(imageFile);
+			    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+			    fOut.flush();
+			    fOut.close();								
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	  
+	  return bitmap;
+ 	}
+	
 	public String getName() {
 		return mName;
 	}
@@ -111,25 +187,6 @@ public class Wine implements Serializable {
 	}
 
 
-	@Override
-	public boolean equals(Object object) {
-		
-		if (!(object instanceof Wine)) {
-			return false;
-		}
-		
-		Wine wine = (Wine) object;
-		
-		return this.mName.equals(wine.getName());
-		
-	}
-
-	
-	
-	
-	
-
-	
 	
 	
 }

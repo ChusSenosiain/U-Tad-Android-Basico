@@ -8,7 +8,9 @@ import com.utad.bacuus.controller.activity.WineHouseActivity;
 import com.utad.bacuus.model.Wine;
 import com.utad.bacuus.model.WineHouse;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class WineListFragment extends Fragment {
+public class WineListFragment extends Fragment{
+	
+	private OnWineSelectedListener mListener = null;
+	
+	public interface OnWineSelectedListener {
+		public void onWineSelected(int index);
+	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -29,37 +38,76 @@ public class WineListFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View root = inflater.inflate(R.layout.fragment_wine_list, container, false);
 		
-		ListView wineList = (ListView) root.findViewById(R.id.wine_list);
+		final ListView wineList = (ListView) root.findViewById(R.id.wine_list);
 		
-		
-		wineList.setAdapter(new ArrayAdapter<Wine>(getActivity(),
-				android.R.layout.simple_spinner_dropdown_item,
-				WineHouse.getInstance().cloneWineList()));
+		new AsyncTask<Void, Void, List<Wine>>() {
+			
+			private ProgressDialog pDialog = null;
+	
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				pDialog = new ProgressDialog(getActivity());
+				pDialog.setTitle("Descargando vinos...");
+				pDialog.setIndeterminate(true);
+				pDialog.setCancelable(false);
+				pDialog.show();
+			}
+
+			@Override
+			protected void onPostExecute(List<Wine> result) {
+				super.onPostExecute(result);
+				pDialog.dismiss();
+				wineList.setAdapter(new ArrayAdapter<Wine>(getActivity(),
+						android.R.layout.simple_spinner_dropdown_item,
+						result));
+				
+			}
+
+			@Override
+			protected List<Wine> doInBackground(Void... params) {
+				
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				WineHouse wineHouse = WineHouse.getInstance();
+				return wineHouse.cloneWineList();
+			}
+			
+			
+		}.execute();
 		
 		
 		wineList.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
-				// TODO ir a la ventana de winehouse con el vino seleccionado
-				//Toast.makeText(getActivity(), "Vino " + position, Toast.LENGTH_LONG).show();
-				
-				parent.getItemAtPosition(position);
-				
-				Intent wineHouseActivity = new Intent(getActivity(), WineHouseActivity.class);
-				wineHouseActivity.putExtra(WineHouseActivity.EXTRA_WINE, (Wine) parent.getItemAtPosition(position));
-				getActivity().startActivity(wineHouseActivity);
-				
-			
+				if (mListener != null) {
+					mListener.onWineSelected(position);
+				}
+								
 			}
-			
 		});
 		
 		return root;
 		
 	}
+
+
+	public OnWineSelectedListener getListener() {
+		return mListener;
+	}
+
+
+	public void setListener(OnWineSelectedListener listener) {
+		mListener = listener;
+	}
+	
+	
+	
 	
 	
 

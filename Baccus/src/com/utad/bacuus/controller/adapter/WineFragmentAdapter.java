@@ -1,5 +1,7 @@
 package com.utad.bacuus.controller.adapter;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

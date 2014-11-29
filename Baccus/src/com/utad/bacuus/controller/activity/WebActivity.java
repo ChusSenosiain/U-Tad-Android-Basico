@@ -21,8 +21,6 @@ public class WebActivity extends ActionBarActivity {
 	
 	public final static String EXTRA_URL = "com.utad.bacuus.extras.URL";
 	
-	
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -29,3 +29,7 @@ Hecho.
 2. Añadir en la ventana de winehouse la opción de volver atrás (home);
 
 Hecho.
+
+# Ejercicio Android Básico 28/11/2014
+1. Que se guarde en shared preferences el formato de la imagen del vino.
+2. Cachear las imágenes del vino. getCacheDir. usar el id de cada vino para guardar el jpg.

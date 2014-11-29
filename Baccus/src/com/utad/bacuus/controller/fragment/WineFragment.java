@@ -3,10 +3,15 @@ package com.utad.bacuus.controller.fragment;
 import com.utad.bacuus.R;
 import com.utad.bacuus.controller.activity.SettingsActivity;
 import com.utad.bacuus.controller.activity.WebActivity;
+import com.utad.bacuus.model.Constants;
 import com.utad.bacuus.model.Wine;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -60,8 +65,12 @@ public class WineFragment extends Fragment{
         TextView tvWinehouse = (TextView) root.findViewById(R.id.tv_winehouse);
         TextView tvDescription = (TextView) root.findViewById(R.id.tv_description);
         
+	   
         if (savedInstanceState != null && savedInstanceState.getSerializable(CURRENT_SCALE) != null) {
         	mWineImage.setScaleType((ScaleType) savedInstanceState.getSerializable(CURRENT_SCALE));
+        } else {
+        	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    		scaleWineImage(pref.getInt(Constants.PREF_SCALE, -1));
         }
         
         Button btnWeb = (Button) root.findViewById(R.id.btn_web);
@@ -70,9 +79,26 @@ public class WineFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				
-				Intent webActivity = new Intent(getActivity(), WebActivity.class);
-				webActivity.putExtra(WebActivity.EXTRA_URL, mWine.getURL());
-				startActivity(webActivity);
+				AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+				alert.setTitle("¿Ande vas?");
+				alert.setMessage("Ojo-cuidado, que nos vamos fuera de la pp, tu verás lo que haces");
+				alert.setPositiveButton("tranki", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Intent webActivity = new Intent(getActivity(), WebActivity.class);
+						webActivity.putExtra(WebActivity.EXTRA_URL, mWine.getURL());
+						startActivity(webActivity);
+					}
+				});
+				
+				alert.setNegativeButton("Más acojonao", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				
+				alert.show();
 				
 			}
 		});
@@ -98,7 +124,11 @@ public class WineFragment extends Fragment{
         tvType.setText(mWine.getType());
         tvWinehouse.setText(mWine.getWineHouse());
         tvDescription.setText(mWine.getDescription());
-        mWineImage.setImageResource(mWine.getImage());
+        
+        
+        //mWineImage.setImageResource(mWine.getImage());
+        mWineImage.setImageBitmap(mWine.getBitmap(getActivity()));
+        
         
         rating.setRating(mWine.getRating());
 		
@@ -109,8 +139,10 @@ public class WineFragment extends Fragment{
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		ScaleType currentScale = mWineImage.getScaleType();
-		outState.putSerializable(CURRENT_SCALE, currentScale);
+		if (mWineImage != null) {
+			ScaleType currentScale = mWineImage.getScaleType();
+			outState.putSerializable(CURRENT_SCALE, currentScale);
+		}
 
 	}
 	
@@ -120,23 +152,25 @@ public class WineFragment extends Fragment{
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		
-		//ImageView mWineImage = (ImageView) findViewById(R.id.wine_image);
-		
 		if (requestCode == SettingsFragment.REQUEST_SELECT_SCALETYPE && resultCode == getActivity().RESULT_OK) {
-			
-			int optionSelected = data.getIntExtra(SettingsFragment.OPTION_SELECTED, -1);
-			if (optionSelected != -1 && optionSelected == SettingsFragment.OPTION_NORMAL) {
-				// A la imagen le doy un type normal
-				mWineImage.setScaleType(ScaleType.FIT_CENTER);
-
-			}
-			else if (optionSelected != -1 && optionSelected == SettingsFragment.OPTION_FIT) {
-				// A la imagen le doy un type estirado
-				mWineImage.setScaleType(ScaleType.FIT_XY);
-				
-			}
+			scaleWineImage(data.getIntExtra(SettingsFragment.OPTION_SELECTED, -1));
 		}
+	}
+	
+	
+	public void scaleWineImage(int scaleType) {
+		
+		if (scaleType == SettingsFragment.OPTION_NORMAL) {
+			// A la imagen le doy un type normal
+			mWineImage.setScaleType(ScaleType.FIT_CENTER);
+
+		}
+		else if (scaleType == SettingsFragment.OPTION_FIT) {
+			// A la imagen le doy un type estirado
+			mWineImage.setScaleType(ScaleType.FIT_XY);
+			
+		}
+		
 	}
 	
 	
@@ -156,8 +190,9 @@ public class WineFragment extends Fragment{
 		boolean defaultValue = super.onOptionsItemSelected(item);
 		
 		if (item.getItemId() == R.id.menu_settings) {
-			Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-			startActivityForResult(settingsIntent, SettingsFragment.REQUEST_SELECT_SCALETYPE);
+			SettingsFragment dialog = new SettingsFragment();
+			dialog.setTargetFragment(this, SettingsFragment.REQUEST_SELECT_SCALETYPE);
+			dialog.show(getFragmentManager(), null);
 			return true;
 		} else{
 			return defaultValue;
