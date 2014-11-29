@@ -1,16 +1,13 @@
 package com.utad.bacuus.controller.fragment;
 
-import com.utad.bacuus.R;
-import com.utad.bacuus.controller.activity.SettingsActivity;
-import com.utad.bacuus.controller.activity.WebActivity;
-import com.utad.bacuus.model.Constants;
-import com.utad.bacuus.model.Wine;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,14 +16,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.ImageView.ScaleType;
+
+import com.utad.bacuus.R;
+import com.utad.bacuus.controller.activity.WebActivity;
+import com.utad.bacuus.model.Constants;
+import com.utad.bacuus.model.Wine;
 
 public class WineFragment extends Fragment{
 	
@@ -125,9 +128,33 @@ public class WineFragment extends Fragment{
         tvWinehouse.setText(mWine.getWineHouse());
         tvDescription.setText(mWine.getDescription());
         
+        mWineImage.setVisibility(View.INVISIBLE);
         
-        //mWineImage.setImageResource(mWine.getImage());
-        mWineImage.setImageBitmap(mWine.getBitmap(getActivity()));
+        final ProgressBar progressBar = (ProgressBar) root.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        
+        final Handler downloadImageHandler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				 mWineImage.setImageBitmap((Bitmap) msg.obj);	
+			     progressBar.setVisibility(View.GONE);
+			     mWineImage.setVisibility(View.VISIBLE);
+			}
+        };
+        
+        Thread downloader = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Message msg = new Message();
+				msg.obj = mWine.getBitmap(getActivity());
+				downloadImageHandler.sendMessage(msg);
+			}
+		});
+        
+        downloader.start();
+        
         
         
         rating.setRating(mWine.getRating());
