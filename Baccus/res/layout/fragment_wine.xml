@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#FF0066"
+    android:background="#501020"
     tools:context="com.utad.bacuus.controller.activity.WineActivity"
     android:orientation="vertical" >
     
@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_description"
             android:scaleType="fitStart"
-            android:src="@drawable/vegaval" />
+            />
         
 	        <ProgressBar
 	            android:id="@+id/progressBar"
@@ -50,27 +50,57 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="10dp" >
+	        
+            
+            <TextView android:id="@+id/tv_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Name"
+                style="@style/BaccusText.Title"/>
 
 			<TextView
 			    android:id="@+id/tv_name"
 			    android:layout_width="wrap_content"
 			    android:layout_height="0dp"
 			    android:layout_weight="1"
-			    android:text="Name" />
+			    android:text="Name"
+			    style="@style/BaccusText.Feature" />
+			
+			
+			
+			<TextView android:id="@+id/tv_type_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Type"
+                style="@style/BaccusText.Title"/>
 		
 			<TextView
 			    android:id="@+id/tv_type"
 			    android:layout_width="wrap_content"
 			    android:layout_height="0dp"
 			    android:layout_weight="1"
-			    android:text="Type" />
+			    android:text="Type" 
+			    style="@style/BaccusText.Feature"/>
+			
+			
+			
+			<TextView android:id="@+id/tv_winehouse_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Winehouse"
+                style="@style/BaccusText.Title"/>
+			
 		
 			<TextView
 			    android:id="@+id/tv_winehouse"
 			    android:layout_width="wrap_content"
 			    android:layout_height="0dp"
 			    android:layout_weight="1"
-			    android:text="Winehouse" />
+			    android:text="Winehouse" 
+			    style="@style/BaccusText.Feature"/>
 			
 			
 			<LinearLayout 
@@ -85,7 +115,7 @@
 				    android:stepSize="1"
 				    android:isIndicator="true"
 				    android:layout_width="wrap_content"
-				    style="?android:attr/ratingBarStyleSmall"
+				    style="@style/WineRatingBar"
 				    android:layout_height="wrap_content"
 				    />
 				
@@ -109,9 +139,9 @@
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
 				    android:text="@string/grapes_title"
-				    android:textStyle="bold"
 				    android:layout_alignParentTop="true"
-				    android:layout_marginBottom="5dp" />
+				    android:layout_marginBottom="5dp"
+				    style="@style/BaccusText.Title" />
 				
 				<LinearLayout
 				    android:id="@+id/grapes"
@@ -140,9 +170,7 @@
 		    android:id="@+id/tv_description"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-		    android:text="Description"
-		    android:textColor="#FFFFFF"
-		     />
+		    style="@style/BaccusText" />
 	
 	</ScrollView>
 

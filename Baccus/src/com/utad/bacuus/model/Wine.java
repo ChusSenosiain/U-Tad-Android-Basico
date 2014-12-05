@@ -59,7 +59,6 @@ public class Wine implements Serializable {
 		mName = jsonWine.optString("name");
 		mWineHouse = jsonWine.optString("company");
 		mType = jsonWine.optString("origin");
-		mImage = R.drawable.vegaval;
 		mRating = jsonWine.optInt("rating");
 		mURL = jsonWine.optString("wine_web");
 		mDescription = jsonWine.optString("notes");
@@ -81,10 +80,12 @@ public class Wine implements Serializable {
 	@SuppressLint("NewApi") public Bitmap getBitmap(Context context) {
 		
 		Bitmap bitmap = null;
+		
+		/*
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
-		}
+		}*/
 	
 		try {
 			

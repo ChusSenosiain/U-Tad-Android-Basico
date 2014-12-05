@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        
+         <Button
+        android:id="@+id/btn_play_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play" />
+
+     <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop" />
+        
+        
+    </LinearLayout>
+    
+
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+   
+
+	    <Button
+	        android:id="@+id/btn_start_service"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="START Service" />
+	    
+	    
+	    <Button
+	        android:id="@+id/btn_stop_service"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="STOP Service" />
+	 </LinearLayout>
+	 
+    
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+   
+
+	    <Button
+	        android:id="@+id/btn_bind_service"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Bind service" />
+	    
+	    
+	    <Button
+	        android:id="@+id/btn_add_service"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Sumar" />
+	    
+	       <Button
+	        android:id="@+id/btn_unbind_service"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Unbind Service" />
+	
+	 </LinearLayout>
+
+	    
+</LinearLayout>

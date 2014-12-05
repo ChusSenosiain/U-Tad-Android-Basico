@@ -9,9 +9,13 @@ import com.utad.bacuus.model.Wine;
 import com.utad.bacuus.model.WineHouse;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +24,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class WineListFragment extends Fragment{
@@ -58,7 +64,7 @@ public class WineListFragment extends Fragment{
 			protected void onPostExecute(List<Wine> result) {
 				super.onPostExecute(result);
 				pDialog.dismiss();
-				wineList.setAdapter(new ArrayAdapter<Wine>(getActivity(),
+				wineList.setAdapter(new WineRowAdapter(getActivity(),
 						android.R.layout.simple_spinner_dropdown_item,
 						result));
 				
@@ -107,7 +113,66 @@ public class WineListFragment extends Fragment{
 	}
 	
 	
-	
+	class WineRowAdapter extends ArrayAdapter<Wine> {
+		
+		private int mLayout;
+
+		public WineRowAdapter(Context context, int resource, List<Wine> wines) {
+			super(context, resource, wines);
+			mLayout = resource;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			super.getView(position, convertView, parent);
+			
+			LayoutInflater inflater = (LayoutInflater) getContext()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
+			final View wineRow = inflater.inflate(mLayout, parent, false);
+			
+			final ImageView wineImage = (ImageView) wineRow.findViewById(R.id.wine_image);
+			wineImage.setVisibility(View.INVISIBLE);
+			
+			
+			final Handler downloadImageHandler = new Handler() {
+		
+				@Override
+				public void handleMessage(Message msg) {
+					super.handleMessage(msg);
+					 wineImage.setImageBitmap((Bitmap) msg.obj);	
+				     wineImage.setVisibility(View.VISIBLE);
+				     wineRow.findViewById(R.id.loading).setVisibility(View.GONE);
+				}
+		    };
+		        
+	        final Wine wine = getItem(position);
+	        
+	        Thread downloader = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Message msg = new Message();
+					msg.obj = wine.getBitmap(getActivity());
+					downloadImageHandler.sendMessage(msg);
+				}
+			});
+	        
+	        downloader.start();
+	        
+	        
+	        TextView wineName = (TextView) wineRow.findViewById(R.id.wine_name);
+	        TextView wineHouse = (TextView) wineRow.findViewById(R.id.winehouse);
+	        
+		        
+		        
+			
+			
+			return wineRow;
+			
+		}
+		
+		
+	}
 	
 	
 
