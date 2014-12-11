@@ -1,0 +1,35 @@
+X - Crear una vista simple con un fragment
+X - Crear una vista especial para pantallas tumbadas
+X - Crear y leer preferencias con SharedPreferences
+X - Crear un menu por xml
+X - Crear un menu por código
+X - Habilitar el menú home
+- Crear una handler para bajar una imagen
+- Crear una asynktask
+X - Crear una lista con un array adapter
+X - Crear un dialog fragment
+X - Crear estilos
+X - Gestionar movimiento de pantalla
+
+
+        final Handler downloadImageHandler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				 mWineImage.setImageBitmap((Bitmap) msg.obj);	
+			     progressBar.setVisibility(View.GONE);
+			     mWineImage.setVisibility(View.VISIBLE);
+			}
+        };
+        
+        Thread downloader = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Message msg = new Message();
+				msg.obj = mWine.getBitmap(getActivity());
+				downloadImageHandler.sendMessage(msg);
+			}
+		});
+        
+        downloader.start();

@@ -93,6 +93,11 @@ public class PlayerFragment extends Fragment implements OnClickListener, Service
 		switch (v.getId()) {
 		case R.id.btn_play_pause:
 			
+			
+			if (mRadioBinder != null) {
+				
+			}
+			
 			if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
 				mMediaPlayer.pause();
 				btnPP.setText(TAG_PLAY);
